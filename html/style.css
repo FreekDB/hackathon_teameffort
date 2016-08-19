@@ -1,0 +1,77 @@
+body, html{
+	height: 100%;
+}
+
+.background {
+	height: 100%;
+	overflow: hidden;
+	background: linear-gradient(141deg, #ffffff 0%, #1fc8db 51%, #9999FF 75%);
+}
+
+.gameContainer {
+    margin: auto;
+    width: 77%;
+}
+
+.wheelsContainer {
+	text-align: center;
+    display: flex;
+	padding: 40px;
+}
+
+.wheelArrow {
+	font-family: sans-serif;
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.aWheel {
+	padding: 40px;
+}
+
+.buttonContainer {
+	text-align: center;
+}
+
+.buttonContainer button {
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;	
+}
+
+#resultContainer {
+    visibility: hidden;
+	padding: 30px;
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+strong {
+ 	font-weight: bold;
+	font-size: 50px;
+}
+
+#rewardResult {
+	padding: 20px;
+	font-size: 30px;
+}
+
+.wannaPlayMessage {
+	font-family: sans-serif;
+	padding: 30px;
+ 	font-weight: bold;
+	font-size: 50px;
+	text-align: center;
+}
+
+.confirmButton {
+	margin: 40px;
+	padding: 10px;
+}
+
+.bannerContainer {
+	text-align: center;
+}

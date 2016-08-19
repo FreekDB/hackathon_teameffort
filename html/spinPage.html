@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+    <title>TOPSPIN</title>
+  </head>
+  <body class="background">
+
+	<div class="gameContainer">
+		<div class="wheelsContainer">
+			<div id="wheel" class="aWheel" >
+				<div class="wheelArrow">
+					<div class="arrow">&#8595;</div>
+				</div>
+				<canvas id="canvas" width="600" height="600"></canvas>
+			</div>
+			   
+			<div id="wheel2" class="aWheel" >
+				<div class="wheelArrow">
+					<div class="arrow">&#8595;</div>
+				</div>
+				<canvas id="canvas2" width="600" height="600"></canvas>
+			</div>
+		 
+		 </div>
+		 <div class="buttonContainer">
+			<button id="spin">Stop spinning and start playing!!</button>
+		 </div>
+	</div>
+	
+	<div id="resultContainer">
+		<div id="gameResult"></div>
+		<div id="rewardResult"></div>
+	</div>
+ 
+ 
+ <script>
+ var rewards = [
+	{
+		label: "Get Coffee",
+		color: '#fbf',
+		description: "The loser will <strong>get a Coffee</strong> for the Winner!"
+	},
+	{
+		label: "Get Fruit",
+		color: '#f88',
+		description: "The loser will <strong>get a piece of Fruit</strong> for the Winner!"
+	},
+	{
+		label: "Write Haiku",
+		color: '#1fc',
+		description: "The loser will <strong>Write a Haiku</strong> for the Winner!"
+	},
+	{
+		label: "Give Compliment",
+		color: '#c8f',
+		description: "The loser will <strong>Give a Compliment</strong> to the Winner!"
+	},
+	{
+		label: "Write Limmerick",
+		color: '#28c',
+		description: "The loser will <strong>Write a Limmerick</strong> for the Winner!"
+	},
+	{
+		label: "Write Haiku",
+		color: '#11c',
+		description: "The loser will <strong>Write a Haiku</strong> for the Winner!"
+	},
+	{
+		label: "Monthly Salary",
+		color: '#000',
+		description: "The loser will <strong>pay his Monthly Salary</strong> to the Winner!"
+	},
+	{
+		label: "Give High Five",
+		color: '#b17',
+		description: "The loser will <strong>Give a High Five</strong> to the Winner!"
+	}
+ ];
+ 
+ var games = [
+	{
+		label: "Chess",
+		color: '#f67',
+		description: "Play a game of <strong>Chess</strong>. Go to <a href='https://lichess.org/setup/friend'>Lichess</a> and create a game. You can both use the resulting link to play against each other."
+	},
+	{
+		label: "Battleship",
+		color: '#067',
+		description: "Play a game of <strong>Battleship</strong>. Go to http://en.battleship-game.org/ and create a game. You can both use the resulting link to play against each other."
+	},
+	{
+		label: "Push-up Contest",
+		color: '#483',
+		description: "Play a game of <strong>Push-up Contest</strong>. Go over to you collegues desk and start doing push ups."
+	},
+	{
+		label: "Foosball",
+		color: '#000',
+		description: "Play a game of <strong>Foosball</strong>. Go to the canteen already."
+	},
+	{
+		label: "Office chair race",
+		color: '#d0d',
+		description: "Play a game of <strong>Office chair race</strong>. Get another collegue to push you around. Literally."
+	},
+	{
+		label: "Thumb Wrestling",
+		color: '#0dd',
+		description: "Play a game of <strong>Thumb Wrestling</strong>."
+	},
+	{
+		label: "Shouting contest",
+		color: '#00d',
+		description: "Play a game of <strong>Shouting contest</strong>. Go get your decibel meter at the reception."
+	}
+ ];
+var gameLabels = [
+"Chess",
+"Tic Tac Toe",
+"Minesweeper",
+"Battleship",
+"Monkey slapp"
+];
+
+ var rewardResult;
+ var gameResult;
+function showResult() {
+	if(rewardResult && gameResult) {
+		console.log('Both results are in!');
+		setResultsVisible();
+	}
+};
+
+function setGame(value) {
+	gameResult = value;
+};
+
+function setReward(value) {
+	rewardResult = value;
+};
+
+function setResultsVisible() {
+		document.getElementById('gameResult').innerHTML = gameResult;
+		document.getElementById('rewardResult').innerHTML = rewardResult;
+		document.getElementById('resultContainer').style.visibility = 'visible';
+};
+		
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var color = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
+
+var slices = rewards.length;
+var sliceDeg = 360/slices;
+var deg = rand(0, 360);
+var speed = 0;
+var slowDownRand = 0;
+var ctx = canvas.getContext('2d');
+var width = canvas.width; // size
+var center = width/2;      // center
+var isStopped = false;
+var lock = false;
+
+function deg2rad(deg) {
+  return deg * Math.PI/180;
+}
+
+function drawSlice(deg, color) {
+  ctx.beginPath();
+  ctx.fillStyle = color;
+  ctx.moveTo(center, center);
+  ctx.arc(center, center, width/2, deg2rad(deg), deg2rad(deg+sliceDeg));
+  ctx.lineTo(center, center);
+  ctx.fill();
+}
+
+function drawText(deg, text) {
+  ctx.save();
+  ctx.translate(center, center);
+  ctx.rotate(deg2rad(deg));
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#ff0";
+  ctx.font = 'bold 30px sans-serif';
+  ctx.fillText(text, 285, 10);
+  ctx.restore();
+}
+
+function drawImg() {
+  ctx.clearRect(0, 0, width, width);
+  for(var i=0; i<slices; i++){
+    drawSlice(deg, rewards[i].color);
+    drawText(deg+sliceDeg/2, rewards[i].label);
+    deg += sliceDeg;
+  }
+}
+
+(function anim() {
+  deg += speed;
+  deg %= 360;
+
+  // Increment speed
+  if(!isStopped && speed<3){
+    speed = speed+1 * 0.1;
+  }
+  // Decrement Speed
+  if(isStopped){
+    if(!lock){
+      lock = true;
+      slowDownRand = rand(0.994, 0.998);
+    } 
+    speed = speed>0.2 ? speed*=slowDownRand : 0;
+  }
+  // Stopped!
+  if(lock && !speed){
+    var ai = Math.floor(((360 - deg - 90) % 360) / sliceDeg); // deg 2 Array Index
+    ai = (slices+ai)%slices; // Fix negative index
+	rewardResult = rewards[ai].description;
+	showResult();
+	return;
+  }
+
+  drawImg();
+  window.requestAnimationFrame( anim );
+}());
+
+document.getElementById("spin").addEventListener("mousedown", function(){
+  isStopped = true;
+}, false);
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var color2 = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
+var slices2 = games.length;
+var sliceDeg2 = 360/slices2;
+var deg2 = rand(0, 360);
+var speed2 = 0;
+var slowDownRand2 = 0;
+var ctx2 = canvas2.getContext('2d');
+var width2 = canvas2.width; // size
+var center2 = width2/2;      // center2
+var isStopped2 = false;
+var lock2 = false;
+
+function deg2rad2(deg2) {
+  return deg2 * Math.PI/180;
+}
+
+function drawSlice2(deg2, color2) {
+  ctx2.beginPath();
+  ctx2.fillStyle = color2;
+  ctx2.moveTo(center2, center2);
+  ctx2.arc(center2, center2, width2/2, deg2rad2(deg2), deg2rad2(deg2+sliceDeg2));
+  ctx2.lineTo(center2, center2);
+  ctx2.fill();
+}
+
+function drawText2(deg2, text) {
+  ctx2.save();
+  ctx2.translate(center2, center2);
+  ctx2.rotate(deg2rad2(deg2));
+  ctx2.textAlign = "right";
+  ctx2.fillStyle = "#ff0";
+  ctx2.font = 'bold 30px sans-serif';
+  ctx2.fillText(text, 275, 10);
+  ctx2.restore();
+}
+
+function drawImg2() {
+  ctx2.clearRect(0, 0, width2, width2);
+  for(var i=0; i<slices2; i++){
+    drawSlice2(deg2, games[i].color);
+    drawText2(deg2+sliceDeg2/2, games[i].label);
+    deg2 += sliceDeg2;
+  }
+}
+
+(function anim2() {
+  deg2 += speed2;
+  deg2 %= 360;
+
+  // Increment speed2
+  if(!isStopped2 && speed2<3){
+    speed2 = speed2+1 * 0.1;
+  }
+  // Decrement Speed
+  if(isStopped2){
+    if(!lock2){
+      lock2 = true;
+      slowDownRand2 = rand(0.994, 0.998);
+    } 
+    speed2 = speed2>0.2 ? speed2*=slowDownRand2 : 0;
+  }
+  // Stopped!
+  if(lock2 && !speed2){
+    var ai2 = Math.floor(((360 - deg2 - 90) % 360) / sliceDeg2); // deg2 2 Array Index
+    ai2 = (slices2+ai2)%slices2; // Fix negative index
+	gameResult = games[ai2].description;
+	showResult();
+	return;
+  }
+
+  drawImg2();
+  window.requestAnimationFrame( anim2 );
+}());
+
+document.getElementById("spin").addEventListener("mousedown", function(){
+  isStopped2 = true;
+}, false);
+
+</script>
+ 
+  </body>
+</html>
