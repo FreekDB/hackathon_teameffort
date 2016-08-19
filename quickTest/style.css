@@ -1,14 +1,15 @@
 body, html{
-	height: 100%
+	height: 100%;
 }
 
 .background {
-	background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+	height: 100%;
+	background: linear-gradient(141deg, #ffffff 0%, #1fc8db 51%, #9999FF 75%);
 }
 
 .gameContainer {
     margin: auto;
-    width: 45%;
+    width: 77%;
 }
 
 .wheelsContainer {
@@ -17,10 +18,42 @@ body, html{
 	padding: 40px;
 }
 
+.wheelArrow {
+	font-family: sans-serif;
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+}
+
 .aWheel {
 	padding: 40px;
 }
 
 .buttonContainer {
 	text-align: center;
+}
+
+.buttonContainer button {
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;	
+}
+
+#resultContainer {
+    visibility: hidden;
+	padding: 30px;
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+strong {
+ 	font-weight: bold;
+	font-size: 50px;
+}
+
+#rewardResult {
+	padding: 20px;
+	font-size: 30px;
 }
