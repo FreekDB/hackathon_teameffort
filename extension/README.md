@@ -1,14 +1,11 @@
-# borderify
+# FireFox extension for launching TOPspin
 
 ## What it does
 
-This extension just includes:
+This web extension invites TOPdesk employees to take a break, by opening the TOPspin page and inviting them to play.
 
-* a content script, "borderify.js", that is injected into any pages
-under "mozilla.org/" or any of its subdomains
+(The content script also draws a red border around the document.body.)
 
-The content script draws a border around the document.body.
+## Credits
 
-## What it shows
-
-* how to inject content scripts declaratively using manifest.json
+* This web extension is based on the borderify example from Mozilla (see https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_first_WebExtension).
