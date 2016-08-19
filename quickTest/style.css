@@ -1,0 +1,26 @@
+body, html{
+	height: 100%
+}
+
+.background {
+	background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+}
+
+.gameContainer {
+    margin: auto;
+    width: 45%;
+}
+
+.wheelsContainer {
+	text-align: center;
+    display: flex;
+	padding: 40px;
+}
+
+.aWheel {
+	padding: 40px;
+}
+
+.buttonContainer {
+	text-align: center;
+}

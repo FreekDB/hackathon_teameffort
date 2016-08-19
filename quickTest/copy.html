@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jPOT by Roko CB</title>
+  </head>
+  <body>
+
+    
+ <div id="wheel2">
+    <canvas id="canvas2" width="300" height="300"></canvas>
+ </div>
+    
+    <br>
+    <button id="spin2">Stop!</button>
+
+		<script>
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var color2 = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
+var gameLabels = [
+"Chess",
+"Tic Tac Toe",
+"Minesweeper",
+"Monkey slapp",
+"Monkey slapp",
+"Monkey slapp",
+"Monkey slapp",
+"Monkey slapp"
+];
+var slices2 = color2.length;
+var sliceDeg2 = 360/slices2;
+var deg2 = rand(0, 360);
+var speed2 = 0;
+var slowDownRand2 = 0;
+var ctx2 = canvas2.getContext('2d');
+var width2 = canvas2.width; // size
+var center2 = width2/2;      // center2
+var isStopped2 = false;
+var lock2 = false;
+
+function deg2rad2(deg2) {
+  return deg2 * Math.PI/180;
+}
+
+function drawSlice2(deg2, color2) {
+  ctx2.beginPath();
+  ctx2.fillStyle = color2;
+  ctx2.moveTo(center2, center2);
+  ctx2.arc(center2, center2, width2/2, deg2rad2(deg2), deg2rad2(deg2+sliceDeg2));
+  ctx2.lineTo(center2, center2);
+  ctx2.fill();
+}
+
+function drawText2(deg2, text) {
+  ctx2.save();
+  ctx2.translate(center2, center2);
+  ctx2.rotate(deg2rad2(deg2));
+  ctx2.textAlign = "right";
+  ctx2.fillStyle = "#fff";
+  ctx2.font = 'bold 12px sans-serif';
+  ctx2.fillText(text, 130, 10);
+  ctx2.restore();
+}
+
+function drawImg2() {
+  ctx2.clearRect(0, 0, width2, width2);
+  for(var i=0; i<slices2; i++){
+    drawSlice2(deg2, color2[i]);
+    drawText2(deg2+sliceDeg2/2, gameLabels[i]);
+    deg2 += sliceDeg2;
+  }
+}
+
+(function anim2() {
+  deg2 += speed2;
+  deg2 %= 360;
+
+  // Increment speed2
+  if(!isStopped2 && speed2<3){
+    speed2 = speed2+1 * 0.1;
+  }
+  // Decrement Speed
+  if(isStopped2){
+    if(!lock2){
+      lock2 = true;
+      slowDownRand2 = rand(0.994, 0.998);
+    } 
+    speed2 = speed2>0.2 ? speed2*=slowDownRand2 : 0;
+  }
+  // Stopped!
+  if(lock2 && !speed2){
+    var ai2 = Math.floor(((360 - deg2 - 90) % 360) / sliceDeg2); // deg2 2 Array Index
+    ai2 = (slices2+ai2)%slices2; // Fix negative index
+    return alert("You got:\n"+ gameLabels[ai2] ); // Get Array Item from end Degree
+  }
+
+  drawImg2();
+  window.requestAnimationFrame( anim2 );
+}());
+
+document.getElementById("spin2").addEventListener("mousedown", function(){
+  isStopped2 = true;
+}, false);
+
+</script>
+    
+ 
+  </body>
+</html>

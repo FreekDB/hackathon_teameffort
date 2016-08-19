@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+    <title>jPOT by Roko CB</title>
+  </head>
+  <body class="background">
+
+	<div class="gameContainer">
+		<div class="wheelsContainer">
+			<div id="wheel" class="aWheel" >
+				<canvas id="canvas" width="300" height="300"></canvas>
+			</div>
+			   
+			<div id="wheel2" class="aWheel" >
+				<canvas id="canvas2" width="300" height="300"></canvas>
+			</div>
+		 
+		 </div>
+		 <div class="buttonContainer">
+			<button id="spin">Stop!</button>
+		 </div>
+	</div>
+ 
+ 
+ <script>
+		
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var color = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
+var label = [
+"Get Coffee",
+"Get Fruit",
+"Write Limmerick",
+"Give High Five",
+"Like Bitrix Post",
+"Get Candy",
+"Give Compliment",
+"Write Haiku",
+];
+var slices = color.length;
+var sliceDeg = 360/slices;
+var deg = rand(0, 360);
+var speed = 0;
+var slowDownRand = 0;
+var ctx = canvas.getContext('2d');
+var width = canvas.width; // size
+var center = width/2;      // center
+var isStopped = false;
+var lock = false;
+
+function deg2rad(deg) {
+  return deg * Math.PI/180;
+}
+
+function drawSlice(deg, color) {
+  ctx.beginPath();
+  ctx.fillStyle = color;
+  ctx.moveTo(center, center);
+  ctx.arc(center, center, width/2, deg2rad(deg), deg2rad(deg+sliceDeg));
+  ctx.lineTo(center, center);
+  ctx.fill();
+}
+
+function drawText(deg, text) {
+  ctx.save();
+  ctx.translate(center, center);
+  ctx.rotate(deg2rad(deg));
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#fff";
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText(text, 130, 10);
+  ctx.restore();
+}
+
+function drawImg() {
+  ctx.clearRect(0, 0, width, width);
+  for(var i=0; i<slices; i++){
+    drawSlice(deg, color[i]);
+    drawText(deg+sliceDeg/2, label[i]);
+    deg += sliceDeg;
+  }
+}
+
+(function anim() {
+  deg += speed;
+  deg %= 360;
+
+  // Increment speed
+  if(!isStopped && speed<3){
+    speed = speed+1 * 0.1;
+  }
+  // Decrement Speed
+  if(isStopped){
+    if(!lock){
+      lock = true;
+      slowDownRand = rand(0.994, 0.998);
+    } 
+    speed = speed>0.2 ? speed*=slowDownRand : 0;
+  }
+  // Stopped!
+  if(lock && !speed){
+    var ai = Math.floor(((360 - deg - 90) % 360) / sliceDeg); // deg 2 Array Index
+    ai = (slices+ai)%slices; // Fix negative index
+    return alert("You got:\n"+ label[ai] ); // Get Array Item from end Degree
+  }
+
+  drawImg();
+  window.requestAnimationFrame( anim );
+}());
+
+document.getElementById("spin").addEventListener("mousedown", function(){
+  isStopped = true;
+}, false);
+
+</script>
+ 
+		<script>
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var color2 = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
+var gameLabels = [
+"Chess",
+"Tic Tac Toe",
+"Minesweeper",
+"Monkey slapp",
+"Monkey slapp",
+"Monkey slapp",
+"Monkey slapp",
+"Monkey slapp"
+];
+var slices2 = color2.length;
+var sliceDeg2 = 360/slices2;
+var deg2 = rand(0, 360);
+var speed2 = 0;
+var slowDownRand2 = 0;
+var ctx2 = canvas2.getContext('2d');
+var width2 = canvas2.width; // size
+var center2 = width2/2;      // center2
+var isStopped2 = false;
+var lock2 = false;
+
+function deg2rad2(deg2) {
+  return deg2 * Math.PI/180;
+}
+
+function drawSlice2(deg2, color2) {
+  ctx2.beginPath();
+  ctx2.fillStyle = color2;
+  ctx2.moveTo(center2, center2);
+  ctx2.arc(center2, center2, width2/2, deg2rad2(deg2), deg2rad2(deg2+sliceDeg2));
+  ctx2.lineTo(center2, center2);
+  ctx2.fill();
+}
+
+function drawText2(deg2, text) {
+  ctx2.save();
+  ctx2.translate(center2, center2);
+  ctx2.rotate(deg2rad2(deg2));
+  ctx2.textAlign = "right";
+  ctx2.fillStyle = "#fff";
+  ctx2.font = 'bold 12px sans-serif';
+  ctx2.fillText(text, 130, 10);
+  ctx2.restore();
+}
+
+function drawImg2() {
+  ctx2.clearRect(0, 0, width2, width2);
+  for(var i=0; i<slices2; i++){
+    drawSlice2(deg2, color2[i]);
+    drawText2(deg2+sliceDeg2/2, gameLabels[i]);
+    deg2 += sliceDeg2;
+  }
+}
+
+(function anim2() {
+  deg2 += speed2;
+  deg2 %= 360;
+
+  // Increment speed2
+  if(!isStopped2 && speed2<3){
+    speed2 = speed2+1 * 0.1;
+  }
+  // Decrement Speed
+  if(isStopped2){
+    if(!lock2){
+      lock2 = true;
+      slowDownRand2 = rand(0.994, 0.998);
+    } 
+    speed2 = speed2>0.2 ? speed2*=slowDownRand2 : 0;
+  }
+  // Stopped!
+  if(lock2 && !speed2){
+    var ai2 = Math.floor(((360 - deg2 - 90) % 360) / sliceDeg2); // deg2 2 Array Index
+    ai2 = (slices2+ai2)%slices2; // Fix negative index
+    return alert("You got:\n"+ gameLabels[ai2] ); // Get Array Item from end Degree
+  }
+
+  drawImg2();
+  window.requestAnimationFrame( anim2 );
+}());
+
+document.getElementById("spin").addEventListener("mousedown", function(){
+  isStopped2 = true;
+}, false);
+
+</script>
+ 
+  </body>
+</html>
