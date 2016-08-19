@@ -4,6 +4,7 @@ body, html{
 
 .background {
 	height: 100%;
+	overflow: hidden;
 	background: linear-gradient(141deg, #ffffff 0%, #1fc8db 51%, #9999FF 75%);
 }
 
@@ -56,4 +57,21 @@ strong {
 #rewardResult {
 	padding: 20px;
 	font-size: 30px;
+}
+
+.wannaPlayMessage {
+	font-family: sans-serif;
+	padding: 30px;
+ 	font-weight: bold;
+	font-size: 50px;
+	text-align: center;
+}
+
+.confirmButton {
+	margin: 40px;
+	padding: 10px;
+}
+
+.bannerContainer {
+	text-align: center;
 }
